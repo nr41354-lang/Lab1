@@ -95,23 +95,65 @@
 
 ```mermaid
 graph TD
-   Start --> InputX --> InputA --> InputB --> InputC --> CheckABC
-    CheckABC -- Да --> Set3 --> CheckMaxCount
+   Start([Начало])
+
+    InputX[/Ввести грузоподъёмность лифта X/]
+    InputA[/Ввести вес груза A/]
+    InputB[/Ввести вес груза B/]
+    InputC[/Ввести вес груза C/]
+
+    CheckABC{A + B + C <= X?}
+    Set3[set maxCount = 3<br>bestCombination = "A B C"]
+
+    CheckAB{A + B <= X и 2 > maxCount?}
+    SetAB[set maxCount = 2<br>bestCombination = "A B"]
+    
+    CheckAC{A + C <= X и 2 > maxCount?}
+    SetAC[set maxCount = 2<br>bestCombination = "A C"]
+
+    CheckBC{B + C <= X и 2 > maxCount?}
+    SetBC[set maxCount = 2<br>bestCombination = "B C"]
+
+    CheckA{A <= X и 1 > maxCount?}
+    SetA[set maxCount = 1<br>bestCombination = "A"]
+
+    CheckB{B <= X и 1 > maxCount?}
+    SetB[set maxCount = 1<br>bestCombination = "B"]
+
+    CheckC{C <= X и 1 > maxCount?}
+    SetC[set maxCount = 1<br>bestCombination = "C"]
+
+    CheckMax{maxCount == 0?}
+    OutputNone[/Вывести сообщение: "В лифт нельзя загрузить ни один груз."/]
+    OutputResult[/Вывести bestCombination и maxCount/]
+
+    End([Конец])
+
+    Start --> InputX --> InputA --> InputB --> InputC --> CheckABC
+
+    CheckABC -- Да --> Set3 --> CheckMax
     CheckABC -- Нет --> CheckAB
-    CheckAB -- Да --> UpdateAB --> CheckAC
+
+    CheckAB -- Да --> SetAB --> CheckAC
     CheckAB -- Нет --> CheckAC
-    CheckAC -- Да --> UpdateAC --> CheckBC
+
+    CheckAC -- Да --> SetAC --> CheckBC
     CheckAC -- Нет --> CheckBC
-    CheckBC -- Да --> UpdateBC --> CheckA
+
+    CheckBC -- Да --> SetBC --> CheckA
     CheckBC -- Нет --> CheckA
-    CheckA -- Да --> UpdateA --> CheckB
+
+    CheckA -- Да --> SetA --> CheckB
     CheckA -- Нет --> CheckB
-    CheckB -- Да --> UpdateB --> CheckC
+
+    CheckB -- Да --> SetB --> CheckC
     CheckB -- Нет --> CheckC
-    CheckC -- Да --> UpdateC --> CheckMaxCount
-    CheckC -- Нет --> CheckMaxCount
-    CheckMaxCount -- Да --> PrintNone --> End
-    CheckMaxCount -- Нет --> PrintResult --> End
+
+    CheckC -- Да --> SetC --> CheckMax
+    CheckC -- Нет --> CheckMax
+
+    CheckMax -- Да --> OutputNone --> End
+    CheckMax -- Нет --> OutputResult --> End
 
 
 ### 5. Программа
@@ -235,6 +277,7 @@ public class Main
     ```
     Груз A (вес 1) Груз B (вес 1) Груз C (вес 1) 1
     ```
+
 
 
 
