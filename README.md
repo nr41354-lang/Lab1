@@ -95,46 +95,23 @@
 
 ```mermaid
 graph TD
-    A([Начало]) --> B[/Ввести: X, A, B, C/]
-    
-    %% Проверка грузов по единичной грузоподъемности
-    B --> C{x_A ≤ X?}
-    C -- Да --> D[/Груз A можно загрузить/]
-    C -- Нет --> E[/Груз A нельзя загрузить/]
-    
-    B --> F{x_B ≤ X?}
-    F -- Да --> G[/Груз B можно загрузить/]
-    F -- Нет --> H[/Груз B нельзя загрузить/]
-    
-    B --> I{x_C ≤ X?}
-    I -- Да --> J[/Груз C можно загрузить/]
-    I -- Нет --> K[/Груз C нельзя загрузить/]
-    
-    %% Инициализация переменной для максимального количества грузов
-    D & G & J --> L[/Инициализация max_count = 0/]
-    
-    %% Проверки для определения максимального количества
-    L --> M{A + B ≤ X?}
-    M -- Да --> N[/max_count = max(max_count, 2)/]
-    M -- Нет --> O[/max_count = max(max_count, 1)/]
-    
-    L --> P{A + C ≤ X?}
-    P -- Да --> Q[/max_count = max(max_count, 2)/]
-    P -- Нет --> R[/max_count = max(max_count, 1)/]
-    
-    L --> S{B + C ≤ X?}
-    S -- Да --> T[/max_count = max(max_count, 2)/]
-    S -- Нет --> U[/max_count = max(max(max_count, 1), 0)/]
-    
-    %% Проверка для трех грузов
-    U --> V{A + B + C ≤ X?}
-    V -- Да --> W[/max_count = 3/]
-    V -- Нет --> X[/max_count остается как есть/]
-    
-    %% Итоговые выводы
-    W & X & R & T & Q & N --> Y[/Вывод: "Максимальное количество грузов: " + max_count/]
-    
-    Y --> Z([Конец])
+   Start --> InputX --> InputA --> InputB --> InputC --> CheckABC
+    CheckABC -- Да --> Set3 --> CheckMaxCount
+    CheckABC -- Нет --> CheckAB
+    CheckAB -- Да --> UpdateAB --> CheckAC
+    CheckAB -- Нет --> CheckAC
+    CheckAC -- Да --> UpdateAC --> CheckBC
+    CheckAC -- Нет --> CheckBC
+    CheckBC -- Да --> UpdateBC --> CheckA
+    CheckBC -- Нет --> CheckA
+    CheckA -- Да --> UpdateA --> CheckB
+    CheckA -- Нет --> CheckB
+    CheckB -- Да --> UpdateB --> CheckC
+    CheckB -- Нет --> CheckC
+    CheckC -- Да --> UpdateC --> CheckMaxCount
+    CheckC -- Нет --> CheckMaxCount
+    CheckMaxCount -- Да --> PrintNone --> End
+    CheckMaxCount -- Нет --> PrintResult --> End
 
 
 ### 5. Программа
@@ -258,6 +235,7 @@ public class Main
     ```
     Груз A (вес 1) Груз B (вес 1) Груз C (вес 1) 1
     ```
+
 
 
 
