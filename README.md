@@ -95,10 +95,44 @@
 
 ```mermaid
 graph TD
-   
+ flowchart TD
+    Start([Начало])
 
-    Start --> InputX --> InputA --> InputB --> InputC --> CheckABC
+    InputX[/Ввести грузоподъёмность лифта X/]
+    InputA[/Ввести вес груза A/]
+    InputB[/Ввести вес груза B/]
+    InputC[/Ввести вес груза C/]
 
+    InitVars["maxCount = 0<br>bestCombination = \"\""]
+
+    CheckABC{(A + B + C) <= X?}
+    Set3["maxCount = 3<br>bestCombination = \"A B C\""]
+
+    CheckAB{(A + B) <= X и 2 > maxCount?}
+    SetAB["maxCount = 2<br>bestCombination = \"A B\""]
+
+    CheckAC{(A + C) <= X и 2 > maxCount?}
+    SetAC["maxCount = 2<br>bestCombination = \"A C\""]
+
+    CheckBC{(B + C) <= X и 2 > maxCount?}
+    SetBC["maxCount = 2<br>bestCombination = \"B C\""]
+
+    CheckA{A <= X и 1 > maxCount?}
+    SetA["maxCount = 1<br>bestCombination = \"A\""]
+
+    CheckB{B <= X и 1 > maxCount?}
+    SetB["maxCount = 1<br>bestCombination = \"B\""]
+
+    CheckC{C <= X и 1 > maxCount?}
+    SetC["maxCount = 1<br>bestCombination = \"C\""]
+
+    CheckMax{maxCount == 0?}
+    OutputNone[/Вывести: "Ни один груз нельзя загрузить."/]
+    OutputResult[/Вывести bestCombination и maxCount/]
+
+    End([Конец])
+
+    Start --> InputX --> InputA --> InputB --> InputC --> InitVars --> CheckABC
     CheckABC -- Да --> Set3 --> CheckMax
     CheckABC -- Нет --> CheckAB
 
@@ -121,8 +155,7 @@ graph TD
     CheckC -- Нет --> CheckMax
 
     CheckMax -- Да --> OutputNone --> End
-    CheckMax -- Нет --> OutputResult --> End
-
+    CheckMax -- Нет --> OutputResult --> End  
 
 ### 5. Программа
 import java.util.Scanner;
@@ -245,6 +278,7 @@ public class Main
     ```
     Груз A (вес 1) Груз B (вес 1) Груз C (вес 1) 1
     ```
+
 
 
 
