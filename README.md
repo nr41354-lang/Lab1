@@ -95,67 +95,27 @@
 
 ```mermaid
 graph TD
- flowchart TD
-    Start([Начало])
+  ([Начало]) --> B[/Ввести: A, B, C, X/]
+        B --> C{X>=A}
+        C -- Нет --> D{X>=B}
+        D -- Нет --> E{"X>=C"}
+        E -- Нет --> F[/"Вывод:0"/]
+        E -- Да --> G[/Вывод: C/]
+        D -- Да --> H[/Вывод:B/]
+        C -- Да --> I[/Вывод: A/]
+        C -- Да --> J{"A+B"}
+        J--Нет-->K{"B+C"}
+        K--Нет-->L{"C+A"}
+        I -- Нет --> J[/Вывод: x in R/]
+        I -- Да --> K[/Вывод: Empty/]
+        J --> M(("-"))
+        K --> M
+        G --> L(("-"))
+        H ----> Z
+        F --> L
+        M --> Z
+        L --> Z([Конец])
 
-    InputX[/Ввести грузоподъёмность лифта X/]
-    InputA[/Ввести вес груза A/]
-    InputB[/Ввести вес груза B/]
-    InputC[/Ввести вес груза C/]
-
-    InitVars["maxCount = 0<br>bestCombination = \"\""]
-
-    CheckABC{(A + B + C) <= X?}
-    Set3["maxCount = 3<br>bestCombination = \"A B C\""]
-
-    CheckAB{(A + B) <= X и 2 > maxCount?}
-    SetAB["maxCount = 2<br>bestCombination = \"A B\""]
-
-    CheckAC{(A + C) <= X и 2 > maxCount?}
-    SetAC["maxCount = 2<br>bestCombination = \"A C\""]
-
-    CheckBC{(B + C) <= X и 2 > maxCount?}
-    SetBC["maxCount = 2<br>bestCombination = \"B C\""]
-
-    CheckA{A <= X и 1 > maxCount?}
-    SetA["maxCount = 1<br>bestCombination = \"A\""]
-
-    CheckB{B <= X и 1 > maxCount?}
-    SetB["maxCount = 1<br>bestCombination = \"B\""]
-
-    CheckC{C <= X и 1 > maxCount?}
-    SetC["maxCount = 1<br>bestCombination = \"C\""]
-
-    CheckMax{maxCount == 0?}
-    OutputNone[/Вывести: "Ни один груз нельзя загрузить."/]
-    OutputResult[/Вывести bestCombination и maxCount/]
-
-    End([Конец])
-
-    Start --> InputX --> InputA --> InputB --> InputC --> InitVars --> CheckABC
-    CheckABC -- Да --> Set3 --> CheckMax
-    CheckABC -- Нет --> CheckAB
-
-    CheckAB -- Да --> SetAB --> CheckAC
-    CheckAB -- Нет --> CheckAC
-
-    CheckAC -- Да --> SetAC --> CheckBC
-    CheckAC -- Нет --> CheckBC
-
-    CheckBC -- Да --> SetBC --> CheckA
-    CheckBC -- Нет --> CheckA
-
-    CheckA -- Да --> SetA --> CheckB
-    CheckA -- Нет --> CheckB
-
-    CheckB -- Да --> SetB --> CheckC
-    CheckB -- Нет --> CheckC
-
-    CheckC -- Да --> SetC --> CheckMax
-    CheckC -- Нет --> CheckMax
-
-    CheckMax -- Да --> OutputNone --> End
-    CheckMax -- Нет --> OutputResult --> End  
 
 ### 5. Программа
 import java.util.Scanner;
@@ -278,6 +238,7 @@ public class Main
     ```
     Груз A (вес 1) Груз B (вес 1) Груз C (вес 1) 1
     ```
+
 
 
 
