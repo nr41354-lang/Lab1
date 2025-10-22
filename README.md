@@ -117,12 +117,13 @@ O--Нет--> R[/Вывод:0/]
 
 
 ### 5. Программа
+```java
 import java.util.Scanner;
 public class Main
 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-System.out.print("Введите грузоподъёмность лифта X: ");
+        System.out.print("Введите грузоподъёмность лифта X: ");
         int X = in.nextInt();
 
         System.out.print("Введите вес груза A: ");
@@ -271,6 +272,7 @@ System.out.print("Введите грузоподъёмность лифта X: 
     ```
     Груз A (вес 1) Груз B (вес 1) Груз C (вес 1) 1
     ```
+
 
 
 
