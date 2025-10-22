@@ -122,70 +122,70 @@ public class Main
 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Введите грузоподъёмность лифта X: ");
-        int X = scanner.nextInt();
+System.out.print("Введите грузоподъёмность лифта X: ");
+        int X = in.nextInt();
 
         System.out.print("Введите вес груза A: ");
-        int A = scanner.nextInt();
+        int A = in.nextInt();
 
         System.out.print("Введите вес груза B: ");
-        int B = scanner.nextInt();
+        int B = in.nextInt();
 
         System.out.print("Введите вес груза C: ");
-        int C = scanner.nextInt();
-
-        // проверим различные комбинации загрузки лифта грузами
+        int C = in.nextInt();
 
         int maxCount = 0;
-        String bestCombination = "";
+        String comb = "";
 
-        // Проверка комбинации, когда все три груза загружены
-        if (A + B + C <= X) {
-            maxCount = 3;
-            bestCombination = "A B C";
-        } else {
-            // проверим попарно каждый груз
-            if (A + B <= X && 2 > maxCount) {
-                maxCount = 2;
-                bestCombination = "A B";
-            }
-            if (A + C <= X && 2 > maxCount) {
-                maxCount = 2;
-                bestCombination = "A C";
-            }
-            if (B + C <= X && 2 > maxCount) {
-                maxCount = 2;
-                bestCombination = "B C";
-            }
-            // По одному грузу
-            if (A <= X && 1 > maxCount) {
-                maxCount = 1;
-                bestCombination = "A";
-            }
-            if (B <= X && 1 > maxCount) {
-                maxCount = 1;
-                bestCombination = "B";
-            }
-            if (C <= X && 1 > maxCount) {
-                maxCount = 1;
-                bestCombination = "C";
-            }
+        // Проверка грузов по отдельности
+        if (A <= X && 1 > maxCount) {
+            maxCount = 1;
+            comb = "A";
+        }
+        if (B <= X && 1 > maxCount) {
+            maxCount = 1;
+            comb = "B";
+        }
+        if (C <= X && 1 > maxCount) {
+            maxCount = 1;
+            comb = "C";
         }
 
+        // Проверка комбинаций из 2 грузов
+        if (A + B <= X && 2 > maxCount) {
+            maxCount = 2;
+            comb = "A B";
+        }
+        if (A + C <= X && 2 > maxCount) {
+            maxCount = 2;
+            comb = "A C";
+        }
+        if (B + C <= X && 2 > maxCount) {
+            maxCount = 2;
+            comb = "B C";
+        }
+
+        //  Проверка омбинации из трёх грузов
+        if (A + B + C <= X && 3 > maxCount) {
+            maxCount = 3;
+            comb = "A B C";
+        }
+
+        // Вывод результата
         if (maxCount == 0) {
             System.out.println("В лифт нельзя загрузить ни один груз без превышения массы.");
         } else {
-            System.out.println("Можно загрузить груз(ы): " + bestCombination);
+            System.out.println("Можно загрузить груз(ы): " + comb);
             System.out.println("Количество грузов, которые можно поместить: " + maxCount);
         }
     }
+        
 }
 
 ### 6. Анализ правильности решения
 
 Программа работает корректно на всем множестве решений с учетом ограничений.
- 1. Тест: грузоподъемность достаточна для всех трёх грузо
+ 1. Тест: грузоподъемность достаточна для всех трёх грузов
  Input:
   ```
     100 20 30 40
@@ -207,7 +207,25 @@ public class Main
     ```
     Груз A (вес 20) Груз B (вес 30) 2
     ```
-3. Грузоподъемность равна весу одного из грузов
+- Input:
+    ```
+   60 50 20 30
+    ```
+- Output:
+    ```
+    Груз B (вес 20) Груз C (вес 30) 2
+    ```
+- Input:
+    ```
+   150 100 140 30
+    ```
+- Output:
+    ```
+    Груз A (вес 100) Груз C (вес 30) 2
+    ```
+    
+
+3. Грузоподъемность больше, чем вес одного груза или равен ему
 - Input:
     ```
   30 50 30 20
@@ -217,6 +235,22 @@ public class Main
     ```
     Груз B (вес 30) Груз C (вес 20) 1
     ```
+- Input:
+    ```
+   60 50 90 30
+    ```
+- Output:
+    ```
+    Груз  A (вес 50) Груз C (вес 30) 1
+- Input:
+    ```
+   100 110 90 112
+    ```
+- Output:
+    ```
+    Груз A (вес 110) 1
+    ```
+
 4.  Грузоподъемность меньше веса всех грузов
 - Input:
     ```
@@ -237,6 +271,7 @@ public class Main
     ```
     Груз A (вес 1) Груз B (вес 1) Груз C (вес 1) 1
     ```
+
 
 
 
